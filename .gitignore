@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Stata 临时文件
+*.log
+*.smcl
+
+# 受限 / 有版权输入（README 中说明获取方式，不入库）
+public.csv
+*.zip
+01_DID/
+*.pdf
