@@ -12,6 +12,7 @@
 | Phase 1 | 写 `01_clean.py`；数据探查；写变量构建日志 | 纠正「全职占比」口径；纠正 PA Wave1 起始工资 4.62→4.63 |
 | Phase 2 | 写 `02_tables.py`/`03_figure.py`；复现并逐项比对 | 反推 Table 4 的 357 样本口径；纠正 Table 2 工资行 bug；纠正 F 检验约束矩阵 |
 | Phase 3 | 写 `04_extension.py`；设计并跑 DDD；诊断混淆来源 | 纠正「地区 FE 与 STATE 共线」；纠正解释文字把 δ 符号写错（实际翻转为 +1.51） |
+| Phase 4 | 写 `run_all.py` / `requirements.txt` / `README.md` / `02_tables.do` | 纠正 `run_all.py` 自身中文输出乱码（补 UTF-8 重配） |
 
 ---
 
@@ -112,7 +113,22 @@
 - **解释函数 `NameError`**：AI 写的 `interpretation()` 内部引用了未传入的参数 `d`，运行报错；已把 `d` 加入函数签名并修正调用。
 - **图表中文字体**：初版系数图 y 轴标签用中文（“加盟店/直营店”），DejaVu Sans 缺 CJK 字形导致缺字警告；改为英文标签（与 `03_figure.py` 的英文绘图惯例一致）。
 
-## Phase 4 — （待填：可复现工作流 + README）
+## Phase 4 — 可复现工作流 + README
+
+### 4.1 写 `run_all.py`（一键复现入口）
+- **用在哪**：代码生成（工作流脚本）。
+- **如何核查**：从 `data/raw/public.csv` 出发全量跑 `python run_all.py`，四条脚本按序执行、全部表图重新生成，`replication_check.md` 全部 ✅（DID 2.754、NJ dummy 2.33、GAP 15.65）。
+- **纠正/拒绝**：AI 初版 `run_all.py` 自身的中文标题/结尾（“运行…”“全部完成”）在 Windows GBK 控制台乱码——因为只有子脚本各自 `sys.stdout.reconfigure(encoding="utf-8")`，父脚本没做。已补上同样的 UTF-8 重配修复。
+
+### 4.2 写 `requirements.txt` 与 `README.md`
+- **用在哪**：写作（环境说明与复现文档）。
+- **如何核查**：README 的目录结构、命令、口径与仓库实际文件逐一比对；依赖按开发环境实测版本（numpy 2.3 / pandas 2.3 / statsmodels 0.15 / matplotlib 3.11）写宽松下限。
+- **纠正/拒绝**：无实质纠错；保留了原课程「数据包下载」信息（`01_DID.zip → public.csv`）作为受限数据获取说明。
+
+### 4.3 写 Stata 交叉验证 `code/02_tables.do`
+- **用在哪**：代码生成（Stata 脚本，可选加分项）。
+- **如何核查**：口径与 Python 一致（fte = EMPFT+NMGRS+0.5·EMPPT；平衡样本；核心 DID ≈ +2.75、DDD ≈ −1.10）。**本机无 Stata，脚本未实际运行**，故文件头部明确标注「未在本机执行，若结果不一致以 Python 为准」——不声称已验证。
+- **纠正/拒绝**：无（纯参考脚本，未执行）。
 
 ## Phase 5 — （待填：报告）
 
