@@ -12,3 +12,6 @@ public.csv
 *.zip
 01_DID/
 *.pdf
+
+# 处理后的门店级数据（由 code/01_clean.py 从 public.csv 生成，仍含受限微观数据，不入库）
+data/processed/*.csv
