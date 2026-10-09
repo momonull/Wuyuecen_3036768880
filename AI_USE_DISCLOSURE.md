@@ -12,7 +12,8 @@
 | Phase 1 | 写 `01_clean.py`；数据探查；写变量构建日志 | 纠正「全职占比」口径；纠正 PA Wave1 起始工资 4.62→4.63 |
 | Phase 2 | 写 `02_tables.py`/`03_figure.py`；复现并逐项比对 | 反推 Table 4 的 357 样本口径；纠正 Table 2 工资行 bug；纠正 F 检验约束矩阵 |
 | Phase 3 | 写 `04_extension.py`；设计并跑 DDD；诊断混淆来源 | 纠正「地区 FE 与 STATE 共线」；纠正解释文字把 δ 符号写错（实际翻转为 +1.51） |
-| Phase 4 | 写 `run_all.py` / `requirements.txt` / `README.md` / `02_tables.do` | — |
+| Phase 4 | 写 `run_all.py` / `requirements.txt` / `README.md` / `02_tables.do` | 纠正 `EMPPT`(兼职) 误写 `empt`；Stata 交叉验证与 Python 点估计一致 |
+| Phase 5 | 撰写详细报告 `report/report.md` + `code/05_report.py` 生成 `report_en.docx` / `report_bilingual.docx` | 报告数值全部从 `output/` 生成物回填；修正控制台核验列索引写错（误读 1.32，实为 2.754） |
 
 ---
 
@@ -142,10 +143,40 @@
 - **纠正/拒绝**：无实质纠错；保留了原课程「数据包下载」信息（`01_DID.zip → public.csv`）作为受限数据获取说明。
 
 ### 4.3 写 Stata 交叉验证 `code/02_tables.do`
-- **用在哪**：代码生成（Stata 脚本，可选加分项）。
-- **如何核查**：口径与 Python 一致（fte = EMPFT+NMGRS+0.5·EMPPT；平衡样本；核心 DID ≈ +2.75、DDD ≈ −1.10）。**本机无 Stata，脚本未实际运行**，故文件头部明确标注「未在本机执行，若结果不一致以 Python 为准」——不声称已验证。
-- **纠正/拒绝**：无（纯参考脚本，未执行）。
+- **用在哪**：代码生成（Stata 脚本，可选加分项）+ 跨软件交叉验证。
+- **如何核查**：在 Stata 17 上实际运行 `do code/02_tables.do`，用 `reg` 独立复现核心 DID 与扩展 DDD，与 Python 逐位比对（结果见 `output/tables/stata_check.log`）：
+  - 核心 DID（平衡样本 N=384，`emp_chg` 对 `STATE`）：系数 **2.75**，与 Python 的 **+2.754** 一致；
+  - 扩展 DDD：`sxo`（STATE×CO_OWNED）系数 **−1.095292**，与 Python 的 **−1.095292** **精确到 6 位小数一致**；`state`=3.131795、`co_owned`=0.3600863、`_cons`=−2.408163 亦全部一致。
+  - **SE 口径差异（已定位并保留）**：Stata 默认同方差 SE，核心 DID t=2.38；Python 用 Welch 两样本 SE（t=2.05）/ HC1 稳健 SE（DDD SE 2.445）。Stata 同方差 SE 2.429463 与 Python HC1 SE 2.445 差异很小，仅异方差处理方式不同，**点估计完全一致**。
+- **纠正/拒绝**：
+  - 🔶 **变量名笔误 `empt` → `emppt`**：初版脚本把兼职变量 `EMPPT`（两个 p）误写为 `empt`，Stata 报错 `variable empt2 not found`。已用 `replace_all` 全局修正为 `emppt`（`empt` 不是 `empft`/`emppt` 的子串，替换安全）。
+  - 🔶 **原始表头实为大写**：经 `import delimited` 核实 raw CSV 表头为**大写**（`EMPFT`/`EMPPT`/`NMGRS`…），并非最初设想的全小写；脚本已用 `case(lower)` 统一转小写以对齐 Python 端派生变量，并同步修正了脚本头注释。
+  - 🔶 **补清洗命令**：初版直接用原数据回归，会漏掉关店处理；已补入与 Python `01_clean.py` 一致的清洗（`STATUS2==3` 永久关闭 → Wave2 就业=0；`STATUS2∈{2,4,5}` 临时关闭 → 缺失），保证两套软件输入口径完全相同。
 
-## Phase 5 — （待填：报告）
+## Phase 5 — 实证报告 + AI 披露
+
+### 5.1 撰写 `report/report.md`（详细英文版）
+- **用在哪**：写作（实证报告，7 个必含小节：研究问题/数据与变量/实证设计/复现结果/扩展/验证与结论/AI 披露；并按评分维度补充了经济机制与假说、样本筛选步骤与计数、数据清洗决策理由等更细内容）。
+- **如何核查**：
+  1. 报告中**每一个数值**都从已生成的产物回填，而非凭记忆书写——DID +2.754、NJ dummy 2.33、GAP 15.65、Table 4 样本 357、扩展 δ = −1.10 (HC1 SE 2.44) 均直接取自 `output/tables/replication_check.md` 与 `output/tables/extension.md`。
+  2. 报告第 4 节与第 7 节中的「差异清单」与 `AI_USE_DISCLOSURE.md` 顶部 🔶 清单逐条对应，确保没有漏报任何口径调整（全职占比分母、Table 4 样本口径、SPECIAL2、列(v) GAP 0.07 差异、PA 工资 4.63、平衡样本 384）。
+  3. 报告结构按 PROJECT_PLAN §7.1 的 7 小节逐项核对齐全。
+- **纠正/拒绝**：
+  - AI 初稿在报告第 6 节把 Stata 的 t 值（同方差 t=2.38）与 Python 的 Welch t=2.05 混写为同一口径，**已分开注明**两套软件的标准误约定不同、点估计一致。
+  - AI 初稿曾把「平衡样本是否含永久关闭店」写成 378，与定案的 384 不符，**已按 Phase 2 定案口径改为 384**（含 6 家永久关闭店，Wave2 就业=0 为有效值）。
+
+### 5.2 写 `code/05_report.py` 并生成 Word（英文版 + 中英对照版）
+- **用在哪**：代码生成（报告构建脚本）+ 写作（`report_en.docx`、`report_bilingual.docx`）。
+- **产出**：`code/05_report.py` 以单一内容源同时生成三份报告（`report.md`、`report_en.docx`、`report_bilingual.docx`）；表格全部从 `ck94_clean.csv` 现场计算（与 `02/04` 同口径），图直接嵌入 `output/figures/` 已生成的 PNG，保证报告与复现产物、工作流三者一致。
+- **如何核查**：
+  1. 用 `python-docx` 反读生成文件：英文版 78 段 / 10 表 / 2 图，中英对照版 143 段 / 10 表 / 2 图；对照版逐段核对为「一段英文、一段中文交替」，图表只出现一次。
+  2. 抽查表格关键值：Table 3 变化行 Diff NJ−PA = **2.75**（与 DID 2.754 一致）；Table 4 NJ = 2.33 (1.19)、GAP = 15.65 (6.08)；扩展 δ = −1.095 (SE 2.428)。
+- **纠正/拒绝**：
+  - 🔶 **控制台核验的列索引写错**：调试打印里把 Table 3 的 DID 读成 `iat[2,3]`（那是「NJ $4.25」列，得 1.32），**一度误以为复现出错**；经独立复算确认 DID 实为 2.754、错误只在调试索引，正文表格用的是正确的「Diff NJ−PA」列（`iat[2,6]`），已修正调试行。教训：核验打印也要核对「列名」而非「位置号」。
+
+### 5.3 更新 `AI_USE_DISCLOSURE.md`
+- **用在哪**：写作（AI 披露文件本体，补齐 Phase 5/6 占位）。
+- **如何核查**：核对「总览」表与正文各 Phase 条目一一对应；确认披露了至少 2 个具体 AI 错误（FTE 公式、全职占比分母、Table 4 样本口径、解释符号翻转等，实际 ≥ 6 个）。
+- **纠正/拒绝**：无。
 
 ## Phase 6 — （待填：GitHub 提交与终检）
