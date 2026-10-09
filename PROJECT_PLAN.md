@@ -113,6 +113,7 @@ personal project/
 | `fte2` | `EMPFT2` + `NMGRS2` + 0.5 × `EMPPT2` |
 | `wage_st` / `wage_st2` | 起始时薪（美元/小时） |
 | `full_meal_price` | `PSODA` + `PFRY` + `PENTREE`（全餐价格，Wave2 同理） |
+| `pct_ft` / `pct_ft2` | **全职占比(%) = `EMPFT / fte × 100`**（全职工 ÷ 全职当量 `fte`；⚠️ 不是「全职工含经理 ÷ 员工总数」——后者得 37.7 而非论文 32.8，已用数据验证） |
 | `state` | 1 = NJ（处理），0 = PA（控制） |
 | `emp_chg` | `fte2 − fte`（店内就业变化，注意与"列均值之差"的区别，见 4.3） |
 | `wage_chg` | `wage_st2 − wage_st` |
@@ -142,6 +143,8 @@ personal project/
 - 用 `groupby(['STATE'])` 分别算 Wave1/Wave2 各变量均值（可附标准误/样本量）。
 - 表结构：行 = 变量，列 = NJ_w1 / NJ_w2 / PA_w1 / PA_w2（或 NJ/PA 两栏各含前后）。
 - **验证**：NJ 起始工资应从 ~$4.61 升至 ~$5.08，PA 基本不变（~$4.63 → ~$4.62）。
+- **完整目标值已归档**：`output/replication_targets.md` 已录入门店类型分布（BK/KFC/Roy/Wendy's/直营占比）与 Wave1/Wave2 全部变量的 NJ/PA 均值+标准误+t 值（PDF 第 776 页逐格核对，并经 `public.csv` 交叉验证一致）。
+- **口径提醒**：全职占比用 `EMPFT/FTE`（见 3.2）；招聘奖金是 `BONUS` 的均值（0/1→%）；营业小时是 `HRSOPEN`。
 
 ### 4.2 Table 3（核心 DID 表）
 
