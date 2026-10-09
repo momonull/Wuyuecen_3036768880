@@ -88,31 +88,37 @@ def build_variables(df):
 
 
 def summarize(df):
-    """打印核验摘要，与 output/replication_targets.md 的原文目标值比对。"""
-    print("\n=== 门店类型分布 (%)  [目标: BK 41.1/44.3, KFC 20.5/15.2, Roy 24.8/21.5, Wendy 13.6/19.0, 直营 34.1/35.4] ===")
+    """生成核验摘要文本，与 output/replication_targets.md 的原文目标值比对。"""
+    L = []
+    a = L.append
+    a("")
+    a("=== 门店类型分布 (%)  [目标: BK 41.1/44.3, KFC 20.5/15.2, Roy 24.8/21.5, Wendy 13.6/19.0, 直营 34.1/35.4] ===")
     for st, name in [(1, "NJ"), (0, "PA")]:
         s = df[df.STATE == st]
-        row = {c: round(100 * (s.CHAIN == c).mean(), 1) for c in [1, 2, 3, 4]}
-        row["直营"] = round(100 * (s.CO_OWNED == 1).mean(), 1)
-        print(f"  {name}: {row}")
+        row = {c: float(round(100 * (s.CHAIN == c).mean(), 1)) for c in [1, 2, 3, 4]}
+        row["直营"] = float(round(100 * (s.CO_OWNED == 1).mean(), 1))
+        a(f"  {name}: {row}")
 
-    print("\n=== 关键均值 (NJ / PA)  [目标值见括号] ===")
+    a("")
+    a("=== 关键均值 (NJ / PA)  [目标值见括号] ===")
     for st, name in [(1, "NJ"), (0, "PA")]:
         s = df[df.STATE == st]
-        print(f"  {name}:")
-        print(f"    Wave1 FTE       {s.fte.mean():.2f}   (20.4 / 23.3)")
-        print(f"    Wave1 起始工资   {s.WAGE_ST.mean():.2f}   (4.61 / 4.63)")
-        print(f"    Wave1 全职占比%  {s.pct_ft.mean():.1f}   (32.8 / 35.0)")
-        print(f"    Wave1 全餐价格   {s.full_meal_price.mean():.2f}   (3.35 / 3.04)")
-        print(f"    Wave2 FTE       {s.fte2.mean():.2f}   (21.0 / 21.2)")
-        print(f"    Wave2 起始工资   {s.WAGE_ST2.mean():.2f}   (5.08 / 4.62)")
-        print(f"    Wave2 全职占比%  {s.pct_ft2.mean():.1f}   (35.9 / 30.4)")
-        print(f"    Wave2 全餐价格   {s.full_meal_price2.mean():.2f}   (3.41 / 3.03)")
+        a(f"  {name}:")
+        a(f"    Wave1 FTE       {s.fte.mean():.2f}   (20.4 / 23.3)")
+        a(f"    Wave1 起始工资   {s.WAGE_ST.mean():.2f}   (4.61 / 4.63)")
+        a(f"    Wave1 全职占比%  {s.pct_ft.mean():.1f}   (32.8 / 35.0)")
+        a(f"    Wave1 全餐价格   {s.full_meal_price.mean():.2f}   (3.35 / 3.04)")
+        a(f"    Wave2 FTE       {s.fte2.mean():.2f}   (21.0 / 21.2)")
+        a(f"    Wave2 起始工资   {s.WAGE_ST2.mean():.2f}   (5.08 / 4.62)")
+        a(f"    Wave2 全职占比%  {s.pct_ft2.mean():.1f}   (35.9 / 30.4)")
+        a(f"    Wave2 全餐价格   {s.full_meal_price2.mean():.2f}   (3.41 / 3.03)")
 
-    print("\n=== 关店/样本计数 ===")
-    print(f"  closure 分布: {df.closure.value_counts().to_dict()}")
-    print(f"  bal_emp (就业平衡): {df.bal_emp.sum()} / {len(df)}")
-    print(f"  NJ={ (df.STATE==1).sum() }, PA={ (df.STATE==0).sum() }")
+    a("")
+    a("=== 关店/样本计数 ===")
+    a(f"  closure 分布: {df.closure.value_counts().to_dict()}")
+    a(f"  bal_emp (就业平衡): {df.bal_emp.sum()} / {len(df)}")
+    a(f"  NJ={ (df.STATE==1).sum() }, PA={ (df.STATE==0).sum() }")
+    return "\n".join(L)
 
 
 def main():
@@ -121,7 +127,13 @@ def main():
     clean = build_variables(df)
     clean.to_csv(OUT, index=False)
     print(f"wrote {OUT}  ({clean.shape[0]} rows x {clean.shape[1]} cols)")
-    summarize(clean)
+    text = summarize(clean)
+    print(text)
+
+    # 落盘核验快照，作为可查询日志（不必重跑即可查看）
+    snapshot = ROOT / "output" / "clean_verification.txt"
+    snapshot.write_text(f"# 01_clean.py 核验快照（自动生成，勿手改）\n\n{text}\n", encoding="utf-8")
+    print(f"\nwrote verification snapshot: {snapshot}")
 
 
 if __name__ == "__main__":
