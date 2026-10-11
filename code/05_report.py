@@ -26,6 +26,7 @@ from docx.shared import Pt, Inches, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
+from docx.oxml import parse_xml
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -907,6 +908,55 @@ def render_markdown(tables):
 # 渲染：Word
 # ===========================================================================
 
+_M_NSDECL = 'xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"'
+
+_SUBSCRIPTS = {
+    '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4',
+    '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9',
+}
+
+
+def _esc_xml(s):
+    return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+def _m_run(text):
+    return f'<m:r><m:t xml:space="preserve">{_esc_xml(text)}</m:t></m:r>'
+
+
+def _m_sub(base, sub):
+    return (f'<m:sSub><m:e>{_m_run(base)}</m:e>'
+            f'<m:sub>{_m_run(sub)}</m:sub></m:sSub>')
+
+
+def _equation_omath(text):
+    """把一条线性公式（可含 Unicode 下标字符）转成 Word 原生公式 m:oMath。"""
+    parts = []
+    buf = []
+    for ch in text:
+        if ch in _SUBSCRIPTS:
+            base = []
+            while buf and (buf[-1].isalnum() or buf[-1] == '_'):
+                base.append(buf.pop())
+            base = ''.join(reversed(base))
+            if buf:
+                parts.append(_m_run(''.join(buf)))
+                buf.clear()
+            parts.append(_m_sub(base or 'x', _SUBSCRIPTS[ch]))
+        else:
+            buf.append(ch)
+    if buf:
+        parts.append(_m_run(''.join(buf)))
+    return f'<m:oMath {_M_NSDECL}>{"".join(parts)}</m:oMath>'
+
+
+def _add_equation(doc, text):
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p._p.append(parse_xml(_equation_omath(text)))
+    return p
+
+
 def _style_doc(doc):
     st = doc.styles["Normal"]
     st.font.name = "Calibri"
@@ -991,9 +1041,9 @@ def render_docx(tables, bilingual, outpath):
                 if bilingual:
                     _add_para(doc, b["cn"], align=WD_ALIGN_PARAGRAPH.JUSTIFY)
             elif t == "eq":
-                _add_para(doc, b["en"], size=11, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER)
+                _add_equation(doc, b["en"])
                 if bilingual:
-                    _add_para(doc, b["cn"], size=11, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER)
+                    _add_equation(doc, b["cn"])
             elif t == "b":
                 for it in b["items"]:
                     _add_para(doc, "• " + it["en"], align=WD_ALIGN_PARAGRAPH.JUSTIFY)
