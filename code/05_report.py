@@ -331,9 +331,9 @@ ABSTRACT_EN = (
     "relative to Pennsylvania and, if anything, rose by about 2.75 full-time-equivalent employees per "
     "store. This project replicates their core results (Tables 2–4 and Figure 1) from the store-level "
     "microdata and then asks an original question the authors did not address: whether the employment "
-    "response differed between company-owned and franchised stores. I reproduce the headline DID estimate "
+    "response differed between company-owned and franchised stores. This paper reproduces the headline DID "
     "of +2.754 FTE (t = 2.05), the reduced-form New Jersey dummy of 2.33 (SE 1.19), and the initial wage "
-    "gap coefficient of 15.65 (SE 6.08) exactly. My triple-difference extension finds no statistically "
+    "gap coefficient of 15.65 (SE 6.08) exactly. This project's triple-difference extension finds no statistically "
     "robust ownership heterogeneity (δ = −1.10, HC1 SE 2.44), a null that is itself informative: the "
     "paper's core conclusion is broadly uniform across the ownership dimension."
 )
@@ -341,9 +341,9 @@ ABSTRACT_CN = (
     "Card 与 Krueger（1994）以 1992 年 4 月 1 日新泽西州最低工资从每小时 4.25 美元上调至 5.05 美元作为自然实验，"
     "并以邻近的宾夕法尼亚州东部作为对照组。他们著名的倍差法结论是：新泽西州就业相对宾州并未下降，反而每家门店"
     "上升了约 2.75 个全职当量员工。本项目从门店级微观数据复现其核心结果（表 2–4 与图 1），进而回答作者未涉及的"
-    "一个原创问题：就业反应是否因直营店与加盟店的所有权不同而存在差异。我精确复现了核心倍差估计 +2.754 个全职当量"
+    "一个原创问题：就业反应是否因直营店与加盟店的所有权不同而存在差异。本论文精确复现了核心倍差估计 +2.754 个全职当量"
     "（t = 2.05）、简约式新泽西虚拟变量系数 2.33（标准误 1.19），以及初始工资缺口系数 15.65（标准误 6.08）。"
-    "我的三重差分扩展未发现统计上稳健的所有权异质性（δ = −1.10，HC1 标准误 2.44），这一零结果本身亦有价值："
+    "本项目的三重差分扩展未发现统计上稳健的所有权异质性（δ = −1.10，HC1 标准误 2.44），这一零结果本身亦有价值："
     "论文的核心结论在所有权维度上大体均质。"
 )
 
@@ -406,14 +406,14 @@ SECTIONS = [
              "cn": "1.3 本项目：复现 + 所有权异质性扩展"},
             {"t": "p", "en":
              "This project has two goals. First, replicate CK94's Tables 2–4 and Figure 1 from the store-level "
-             "microdata, verifying that my data-processing and estimation choices recover the published numbers. "
+             "microdata, verifying that this project's data-processing and estimation choices recover the published numbers. "
              "Second, extend the analysis with an independent question the authors did not pursue: does the "
              "employment response differ between company-owned and franchised stores? Franchisees face hard budget "
              "constraints and residual-claimant incentives, whereas corporate stores can absorb wage shocks through "
              "headquarters and standardize staffing. This is a motivated heterogeneity test with a clear economic "
              "question, developed fully in Section 5.",
              "cn":
-             "本项目有两个目标。其一，从门店级微观数据复现 CK94 的表 2–4 与图 1，验证我的数据处理与估计选择能"
+             "本项目有两个目标。其一，从门店级微观数据复现 CK94 的表 2–4 与图 1，验证本项目的数据处理与估计选择能"
              "还原论文已发表数值。其二，以一个作者未涉及的独立问题做扩展：就业反应是否因直营店与加盟店而不同？"
              "加盟商面临硬预算约束与剩余索取权激励，而直营店可通过总部吸收工资冲击并标准化用工。这是一个动机"
              "充分、经济问题清晰且方法干净（数据现成）的异质性检验，详见第 5 节。"},
@@ -431,16 +431,15 @@ SECTIONS = [
              "restaurants in New Jersey (331 stores) and eastern Pennsylvania (79 stores), drawn from four chains — "
              "Burger King (171), KFC (80), Roy Rogers (99), and Wendy's (60) — of which 269 are franchised and 141 "
              "company-owned. Wave 1 was conducted February–March 1992, before the minimum-wage increase; Wave 2 was "
-             "conducted November–December 1992, after it. The file is treated as read-only input: all cleaning and "
-             "variable construction happens in code/01_clean.py, which writes data/processed/ck94_clean.csv. A full "
-             "variable map is logged in data/processed/variable_construction.md.",
+             "conducted November–December 1992, after it. The raw file is used read-only; all cleaning and "
+             "variable construction follow the definitions in Section 2.3, and the complete variable map is given "
+             "in the variable-definition table.",
              "cn":
              "本分析使用课程提供的门店级调查文件 public.csv（410 行 × 46 列），与论文所依据的受限数据集一致。"
              "这是一个两期面板，覆盖新泽西州（331 家）与宾州东部（79 家）的快餐店，来自四个连锁品牌——汉堡王（171）、"
              "肯德基（80）、Roy Rogers（99）与温迪（60）——其中加盟 269 家、直营 141 家。第 1 期调查于 1992 年 2–3 月"
-             "（最低工资上调前）进行，第 2 期于 1992 年 11–12 月（上调后）进行。该文件只读不写：所有清洗与变量构建"
-             "均在 code/01_clean.py 中完成，并写出 data/processed/ck94_clean.csv；完整变量映射记录于 "
-             "data/processed/variable_construction.md。"},
+             "（最低工资上调前）进行，第 2 期于 1992 年 11–12 月（上调后）进行。该原始文件作为只读输入使用；所有清洗与"
+             "变量构建均遵循第 2.3 节的变量定义，完整的变量映射见变量定义表。"},
             {"t": "h", "en": "2.2 Sample screening and closure handling",
              "cn": "2.2 样本筛选与关店处理"},
             {"t": "p", "en":
@@ -481,23 +480,48 @@ SECTIONS = [
              "EMPPT) 会得到 ≈37.7（错误），而 EMPFT/fte 精确得到论文的 32.8/35.0。"},
             {"t": "h", "en": "2.4 Data-cleaning decisions and their rationale",
              "cn": "2.4 数据清洗决策及其理由"},
-            {"t": "b", "items": [
-                {"en": "Missing starting wages (WAGE_ST: 20 missing; WAGE_ST2: 21 missing) and missing prices "
-                       "(8–28 per item) are handled by listwise deletion in each table, with the effective sample "
-                       "size reported in a footnote — exactly as the paper does.",
-                 "cn": "起始工资缺失（WAGE_ST 缺 20、WAGE_ST2 缺 21）与价格缺失（各项 8–28）在各表中通过逐条删除"
-                       "处理，并在脚注报告有效样本量——与论文做法完全一致。"},
-                {"en": "No interpolation or imputation is applied anywhere, so the reported samples are transparent "
-                       "and auditable.",
-                 "cn": "全程不做任何插补，故所报告的样本透明、可审计。"},
-                {"en": "The Wave-2 'recruiting bonus' uses SPECIAL2 (a special program for new workers), because the "
-                       "raw file has no BONUS2 column and SPECIAL2 reproduces the published 20.3/23.4.",
-                 "cn": "Wave-2「招聘奖金」使用 SPECIAL2（针对新员工的特殊项目），因为原始文件无 BONUS2 列，且 "
-                       "SPECIAL2 精确复现论文的 20.3/23.4。"},
-                {"en": "Closure codes are applied as explicit, documented rules (permanent → 0, temporary → missing) "
-                       "rather than silently absorbed into the data.",
-                 "cn": "关店编码作为显式、可查的规则应用（永久 → 0，临时 → 缺失），而非被静默吸收进数据。"},
-            ]},
+            {"t": "p", "en":
+             "The first set of decisions concerns missing values. Starting wages are missing for 20 stores in "
+             "Wave 1 (WAGE_ST) and 21 in Wave 2 (WAGE_ST2), and meal-price components are missing for between 8 and "
+             "28 stores depending on the item. Following the paper, these observations are handled by listwise "
+             "deletion: each table drops only the rows that lack the specific variables it requires, and the "
+             "resulting effective sample size is reported in a footnote so that the reader can reconstruct exactly "
+             "which stores enter each calculation.",
+             "cn":
+             "第一组决策涉及缺失值。起始工资在第 1 期缺 20 家（WAGE_ST）、第 2 期缺 21 家（WAGE_ST2），套餐价格"
+             "各分项视项目不同缺失 8 至 28 家。沿用论文做法，这些观测通过逐条删除处理：每张表仅剔除缺少其所用变量的"
+             "行，并在脚注报告由此得到的有效样本量，使读者能够精确重建每项计算所包含的门店。"},
+            {"t": "p", "en":
+             "Relatedly, no interpolation or imputation is applied anywhere in the pipeline. Every missing value is "
+             "either excluded from a table or, in the case of permanent closures, treated as a documented structural "
+             "zero. This keeps the reported samples transparent and auditable, and it avoids introducing assumptions "
+             "— about, say, the wage path of a store that refused to answer — that would be hard to defend and could "
+             "silently move the estimates.",
+             "cn":
+             "与此相关，整个流程不做任何插补或填补。每个缺失值要么从相应表中剔除，要么（在永久关闭店的情形下）"
+             "作为已记录的结构性零处理。这使所报告的样本透明、可审计，也避免引入难以辩护的假设——例如对某家拒访"
+             "门店工资路径的臆测——这类假设可能悄然改变估计结果。"},
+            {"t": "p", "en":
+             "A third decision concerns the Wave-2 recruiting-bonus variable. The raw file contains no BONUS2 "
+             "column, so the Wave-2 bonus is measured with SPECIAL2, a special program aimed at newly hired workers. "
+             "The choice is not arbitrary: SPECIAL2 reproduces the published Wave-2 percentages (20.3/23.4) exactly, "
+             "which is taken as confirmation that it corresponds to the variable the authors labelled 'recruiting "
+             "bonus / special' in their Table 2.",
+             "cn":
+             "第三项决策关乎 Wave-2 的招聘奖金变量。原始文件没有 BONUS2 列，因此 Wave-2 奖金用 SPECIAL2——一个"
+             "面向新入职员工的特殊项目——来度量。这一选择并非任意：SPECIAL2 精确复现了论文 Wave-2 的百分比"
+             "（20.3/23.4），据此确认它对应作者在表 2 中标记为「招聘奖金 / 特殊」的变量。"},
+            {"t": "p", "en":
+             "Finally, closure status is handled through explicit, documented rules rather than being silently "
+             "absorbed into the data. A permanent closure is coded as Wave-2 employment of zero (the store exists but "
+             "employs no one), a temporary closure is coded as missing, and a refusal is coded as missing throughout "
+             "Wave 2. Making these rules explicit matters because the treatment of the six permanent closures is "
+             "precisely what allows the analysis to recover the paper's N = 357 regression sample and its "
+             "dependent-variable moments.",
+             "cn":
+             "最后，关店状态通过显式、可查的规则处理，而非被静默吸收进数据。永久关闭被编码为 Wave-2 就业为零"
+             "（门店仍在但不再雇佣任何人），临时关闭被编码为缺失，拒访则在 Wave-2 全程编码为缺失。将这些规则显式化"
+             "之所以重要，是因为对 6 家永久关闭店的处理正是使分析得以还原论文 N = 357 回归样本及其因变量矩的关键。"},
         ],
     },
     # ------------------------------------------------------------------ 3
@@ -543,13 +567,13 @@ SECTIONS = [
              "The paper's most elegant falsification test groups New Jersey stores by their Wave-1 starting wage. "
              "Stores already paying ≥ $5.00 before the hike were effectively untreated, so their employment change "
              "should mirror Pennsylvania's. That this is exactly what the data show (Section 4) is strong evidence "
-             "that the parallel-trends assumption holds. On inference, I report Welch (unequal-variance) standard "
-             "errors for the two-sample DID and heteroskedasticity-robust (HC1) errors for the regressions, and I "
-             "cross-validate every point estimate in Stata (Section 6).",
+             "that the parallel-trends assumption holds. On inference, this paper reports Welch (unequal-variance) standard "
+             "errors for the two-sample DID and heteroskedasticity-robust (HC1) errors for the regressions, and "
+             "cross-validates every point estimate in Stata (Section 6).",
              "cn":
              "论文最优雅的证伪检验是按 Wave-1 起始工资对新泽西门店分组。上调前已支付 ≥ 5.00 美元的门店实际上"
              "未受处理，其就业变化应与宾州一致。数据恰好如此（第 4 节），这为平行趋势假设提供了有力证据。在推断上，"
-             "我对两样本 DID 报告 Welch（不等方差）标准误、对回归报告异方差稳健（HC1）标准误，并在 Stata 中对每个"
+             "本论文对两样本 DID 报告 Welch（不等方差）标准误、对回归报告异方差稳健（HC1）标准误，并在 Stata 中对每个"
              "点估计做交叉验证（第 6 节）。"},
         ],
     },
@@ -560,7 +584,7 @@ SECTIONS = [
         "blocks": [
             {"t": "p", "en":
              "All four targets reproduce the published figures to within rounding; the complete side-by-side "
-             "verification is reported at the end of this section. I discuss each table in turn.",
+             "verification is reported at the end of this section. This paper discusses each table in turn.",
              "cn":
              "四个复现目标均精确到舍入误差之内；完整的逐项对照见本节末尾。下面依次讨论各表。"},
             {"t": "h", "en": "4.1 Table 2 — descriptive statistics", "cn": "4.1 表 2 — 描述性统计"},
@@ -601,13 +625,13 @@ SECTIONS = [
              "In the 357-store sample, the coefficient on the New Jersey dummy is 2.33 (SE 1.19) and the coefficient "
              "on the initial wage gap GAP is 15.65 (SE 6.08), matching the paper to two decimals in every column, "
              "including column (ii) 2.30 (1.20) and column (iv) 14.92 (6.21). One documented discrepancy remains: in "
-             "column (v) my GAP coefficient is 11.98 (7.42) against the paper's 11.91 (7.39), a 0.07 difference traced "
+             "column (v) the replicated GAP coefficient is 11.98 (7.42) against the paper's 11.91 (7.39), a 0.07 difference traced "
              "to a minor difference in region-dummy coding, immaterial to any conclusion and flagged rather than "
              "silently absorbed.",
              "cn":
              "在 357 家样本中，新泽西虚拟变量系数为 2.33（标准误 1.19），初始工资缺口 GAP 系数为 15.65（标准误 "
              "6.08），每一列都与论文精确到小数点后两位，包括列 (ii) 的 2.30 (1.20) 与列 (iv) 的 14.92 (6.21)。仅剩"
-             "一处已记录的差异：列 (v) 中我的 GAP 系数为 11.98 (7.42)，对照论文的 11.91 (7.39)，0.07 的差异源于地区"
+             "一处已记录的差异：列 (v) 中复现得到的 GAP 系数为 11.98 (7.42)，对照论文的 11.91 (7.39)，0.07 的差异源于地区"
              "哑变量编码的细微不同，对任何结论均无影响，且已被如实标注而非静默吸收。"},
             {"t": "h", "en": "4.4 Figure 1 — wage distributions", "cn": "4.4 图 1 — 工资分布"},
             {"t": "figure", "path": "figure1", "en":
@@ -644,16 +668,16 @@ SECTIONS = [
              "staffing quickly, whereas corporate stores can absorb wage shocks through headquarters, standardize "
              "employment practices, and face weaker incentives to shed labor at the margin. The two ownership types "
              "may therefore transmit the same wage shock to employment differently, and the data contain a clean "
-             "company-ownership indicator (CO_OWNED) that lets me test this directly.",
+             "company-ownership indicator (CO_OWNED) that enables this project to test this directly.",
              "cn":
              "最低工资的就业反应是否因直营店与加盟店而不同？加盟商是剩余索取者，面临硬预算约束，可自主定价并"
              "快速调整用工；而直营店可通过总部吸收工资冲击、标准化用工，边际上裁员的激励较弱。因此两种所有权类型"
-             "可能以不同方式将同一工资冲击传导到就业，而数据中含有一个干净的直营标识（CO_OWNED），使我能直接检验。"},
+             "可能以不同方式将同一工资冲击传导到就业，而数据中含有一个干净的直营标识（CO_OWNED），使本项目能直接检验。"},
             {"t": "h", "en": "5.2 Design: a triple difference", "cn": "5.2 设计：三重差分"},
             {"t": "p", "en":
-             "I estimate a triple difference (difference-in-differences-in-differences) on the balanced employment "
+             "This project estimates a triple difference (difference-in-differences-in-differences) on the balanced employment "
              "sample (N = 384):",
-             "cn": "我在就业平衡样本（N = 384）上估计三重差分："},
+             "cn": "本项目在就业平衡样本（N = 384）上估计三重差分："},
             {"t": "eq", "en": "Δemp = α + β·STATE + γ·CO_OWNED + δ·(STATE×CO_OWNED) + ε",
              "cn": "Δemp = α + β·STATE + γ·CO_OWNED + δ·(STATE×CO_OWNED) + ε"},
             {"t": "p", "en":
@@ -715,49 +739,74 @@ SECTIONS = [
         "blocks": [
             {"t": "h", "en": "6.1 Validation", "cn": "6.1 验证"},
             {"t": "p", "en":
-             "Every replicated statistic was checked against the values transcribed from the paper in "
-             "output/replication_targets.md, and the pipeline was additionally cross-validated in Stata 17 "
-             "(code/02_tables.do). The point estimates agree exactly: the balanced-sample DID is +2.75 (Stata, "
-             "homoskedastic t = 2.38) versus +2.754 (Python, Welch t = 2.05), and the extension interaction "
-             "coefficient agrees to six decimals (−1.095292). The only difference is the standard-error convention "
-             "(homoskedastic versus robust/Welch), which never changes a point estimate. The one-click workflow "
-             "python run_all.py regenerates all tables and figures from the raw input with no manual edits.",
+             "Every replicated statistic was checked against the values transcribed from the published paper, and "
+             "the pipeline was additionally cross-validated in Stata 17. The point estimates agree exactly: the "
+             "balanced-sample DID is +2.75 (Stata, homoskedastic t = 2.38) versus +2.754 (Python, Welch t = 2.05), "
+             "and the extension interaction coefficient agrees to six decimals (−1.095292). The only difference is "
+             "the standard-error convention (homoskedastic versus robust/Welch), which never changes a point "
+             "estimate.",
              "cn":
-             "每一项复现统计量都与 output/replication_targets.md 中从论文转录的目标值核对过，且流程另在 Stata 17 "
-             "（code/02_tables.do）中做了交叉验证。点估计完全一致：平衡样本 DID 为 +2.75（Stata，同方差 t = 2.38）"
-             "对照 +2.754（Python，Welch t = 2.05），扩展交互项系数一致到小数点后六位（−1.095292）。唯一差异是"
-             "标准误约定（同方差 vs 稳健/Welch），从不改变任何点估计。一键工作流 python run_all.py 从原始输入"
-             "重新生成全部图表，无需手动改动。"},
+             "每一项复现统计量都与从论文转录的目标值核对过，且流程另在 Stata 17 中做了交叉验证。点估计完全一致："
+             "平衡样本 DID 为 +2.75（Stata，同方差 t = 2.38）对照 +2.754（Python，Welch t = 2.05），扩展交互项"
+             "系数一致到小数点后六位（−1.095292）。唯一差异是标准误约定（同方差 vs 稳健/Welch），从不改变任何"
+             "点估计。"},
             {"t": "h", "en": "6.2 Limitations", "cn": "6.2 局限"},
-            {"t": "b", "items": [
-                {"en": "The design relies on parallel trends, which — while supported by the high-wage falsification "
-                       "test — cannot be directly tested with only two survey waves.",
-                 "cn": "设计依赖平行趋势假设，虽经高工资店证伪检验支持，但仅有两期调查无法直接检验。"},
-                {"en": "The extension's triple difference is under-powered: only 26 Pennsylvania company-owned stores, "
-                       "and ownership is collinear with brand (company-owned stores concentrate in KFC/Roy Rogers), "
-                       "limiting clean separation of ownership from brand and size.",
-                 "cn": "扩展的三重差分功效不足：宾州直营店仅 26 家，且所有权与品牌共线（直营店集中于肯德基/Roy "
-                       "Rogers），限制了所有权与品牌、规模的干净分离。"},
-                {"en": "The choice of standard errors (homoskedastic versus robust versus clustered) moves the "
-                       "t-statistic of the core DID, though never its sign or economic magnitude.",
-                 "cn": "标准误选择（同方差 vs 稳健 vs 聚类）会改变核心 DID 的 t 值，但从不改变其符号与经济含义。"},
-                {"en": "The data are course-restricted and are not redistributed; reproduction requires placing "
-                       "public.csv in data/raw/.",
-                 "cn": "数据为课程受限数据，不再分发；复现需将 public.csv 放入 data/raw/。"},
-            ]},
+            {"t": "p", "en":
+             "The first limitation concerns the identifying assumption. The design rests on the parallel-trends "
+             "assumption that, absent the minimum-wage increase, employment in New Jersey and eastern Pennsylvania "
+             "would have followed the same trajectory. The high-wage falsification test in Section 4 provides "
+             "indirect support for this assumption — stores already paying at or above the new minimum behaved like "
+             "Pennsylvania stores — but with only two survey waves the assumption cannot be tested directly, and no "
+             "pre-period data are available with which to trace pre-trends.",
+             "cn":
+             "第一项局限关乎识别假设。本设计依赖平行趋势假设，即若没有最低工资上调，新泽西与宾州东部的就业本会"
+             "沿同一轨迹变动。第 4 节的高工资店证伪检验为这一假设提供了间接支持——上调前已支付等于或高于新最低工资"
+             "的门店，其表现与宾州门店一致——但仅有两期调查数据，这一假设无法被直接检验，也缺乏前期数据用以追溯"
+             "事前趋势。"},
+            {"t": "p", "en":
+             "The second limitation is the statistical power of the ownership extension. The triple difference is "
+             "identified off a thin slice of the sample: there are only 26 company-owned stores in Pennsylvania, so "
+             "the ownership-by-state interaction is estimated with a large standard error. Ownership is also strongly "
+             "collinear with brand — company-owned stores are concentrated in KFC and Roy Rogers — and with store "
+             "size, which makes it difficult to separate a genuine ownership effect from brand composition or "
+             "size-driven mean reversion. As Section 5.4 shows, the point estimate is sensitive to controlling for "
+             "initial store size, which is precisely why the null result is interpreted cautiously.",
+             "cn":
+             "第二项局限是所有权扩展的统计功效。三重差分仅由样本中较薄的一块识别：宾州直营店仅有 26 家，因此"
+             "所有权×州交互项的估计标准误较大。所有权还与品牌高度共线——直营店集中于肯德基与 Roy Rogers——并与"
+             "门店规模相关，这使得难以将真正的所有权效应与品牌构成、规模驱动的均值回归区分开来。正如第 5.4 节所示，"
+             "点估计对是否控制初始门店规模敏感，这正是对零结果持谨慎解读的原因。"},
+            {"t": "p", "en":
+             "The third limitation concerns inference. The t-statistic of the core difference-in-differences estimate "
+             "moves with the choice of standard errors — homoskedastic, heteroskedasticity-robust, or clustered by "
+             "chain — although neither the point estimate, the sign, nor the economic magnitude changes. With only "
+             "four chains, cluster-robust inference is itself fragile and is therefore reported only as a robustness "
+             "check rather than as the headline specification.",
+             "cn":
+             "第三项局限关乎推断。核心倍差估计的 t 值会随标准误选择——同方差、异方差稳健或按品牌聚类——而变化，"
+             "尽管点估计、符号与经济含义均不改变。由于只有四个品牌，聚类稳健推断本身也不可靠，故仅作为稳健性"
+             "检验报告，而非作为主设定。"},
+            {"t": "p", "en":
+             "Finally, the underlying store-level data are course-restricted and are not redistributed, which limits "
+             "the ability of external readers to independently audit the raw records. Every variable-construction and "
+             "sample-selection choice is nevertheless documented, so that all reported numbers can be traced once "
+             "access to the data is available.",
+             "cn":
+             "最后，所用门店级数据为课程受限数据、不再分发，这限制了外部读者独立审计原始记录的能力。尽管如此，"
+             "每一处变量构建与样本筛选选择均已记录，获得数据访问权限后即可追溯所有报告数字。"},
             {"t": "h", "en": "6.3 Conclusion", "cn": "6.3 结论"},
             {"t": "p", "en":
-             "I reproduce Card and Krueger's (1994) core finding exactly: New Jersey's 1992 minimum-wage increase to "
+             "This paper reproduces Card and Krueger's (1994) core finding exactly: New Jersey's 1992 minimum-wage increase to "
              "$5.05 was followed by a relative increase of ≈2.75 full-time-equivalent employees per store relative to "
              "Pennsylvania (DID +2.754, t = 2.05; New Jersey dummy 2.33; GAP 15.65), with the high-wage falsification "
-             "test behaving exactly as the paper reports. My extension finds no statistically robust heterogeneity "
+             "test behaving exactly as the paper reports. This project's extension finds no statistically robust heterogeneity "
              "in this response between company-owned and franchised stores. Taken together, the results reaffirm "
              "CK94's conclusion that a moderate minimum-wage increase did not reduce fast-food employment — a finding "
              "that continues to shape minimum-wage policy debate three decades on.",
              "cn":
-             "我精确复现了 Card 与 Krueger（1994）的核心发现：1992 年新泽西最低工资上调至 5.05 美元后，相对宾州"
+             "本论文精确复现了 Card 与 Krueger（1994）的核心发现：1992 年新泽西最低工资上调至 5.05 美元后，相对宾州"
              "每家门店就业上升约 2.75 个全职当量（DID +2.754，t = 2.05；新泽西虚拟变量 2.33；GAP 15.65），高工资店"
-             "证伪检验与论文报告完全一致。我的扩展未发现直营店与加盟店在这一反应上存在统计上稳健的异质性。综合来看，"
+             "证伪检验与论文报告完全一致。本项目的扩展未发现直营店与加盟店在这一反应上存在统计上稳健的异质性。综合来看，"
              "这些结果再次确认了 CK94 的结论：适度的最低工资上调并未减少快餐业就业——这一发现在三十年后仍在塑造"
              "最低工资政策的争论。"},
         ],
@@ -821,10 +870,7 @@ def _md_table(df):
 
 def render_markdown(tables):
     L = [f"# {TITLE_EN}", ""]
-    L += [f"> *Empirical report — AI-assisted replication and extension of Card & Krueger (1994).*",
-          "> Companion package: `README.md` · `run_all.py` · `code/` · `output/`.",
-          "> This file is generated by `code/05_report.py`; see `report/report_en.docx` (English) and",
-          "> `report/report_bilingual.docx` (bilingual).", ""]
+    L += [f"> *Empirical report — AI-assisted replication and extension of Card & Krueger (1994).*", ""]
     L += ["## Abstract", "", ABSTRACT_EN, ""]
     for sec in SECTIONS:
         L += [f"## {sec['title_en']}", ""]
