@@ -957,14 +957,41 @@ def _add_equation(doc, text):
     return p
 
 
+def _set_font(style, latin, east_asia="SimSun"):
+    """设置样式西文/中文字体，并移除主题字体属性（否则 Word 中主题字体会压过显式字体）。"""
+    style.font.name = latin
+    rFonts = style._element.rPr.rFonts
+    rFonts.set(qn('w:eastAsia'), east_asia)
+    for attr in ('w:asciiTheme', 'w:hAnsiTheme', 'w:cstheme', 'w:eastAsiaTheme'):
+        rFonts.attrib.pop(qn(attr), None)
+
+
 def _style_doc(doc):
-    st = doc.styles["Normal"]
-    st.font.name = "Calibri"
-    st.font.size = Pt(11)
-    st._element.rPr.rFonts.set(qn("w:eastAsia"), "SimSun")
+    """AEA 期刊风格：Times New Roman（西文）+ 宋体（中文），单倍行距，紧凑黑字标题。"""
+    normal = doc.styles["Normal"]
+    _set_font(normal, "Times New Roman")
+    normal.font.size = Pt(11)
+    npf = normal.paragraph_format
+    npf.line_spacing = 1.0
+    npf.space_before = Pt(0)
+    npf.space_after = Pt(6)
+
+    for name, size, before, after in (("Heading 1", 12, 12, 6), ("Heading 2", 11, 8, 4)):
+        hs = doc.styles[name]
+        _set_font(hs, "Times New Roman")
+        hs.font.size = Pt(size)
+        hs.font.bold = True
+        hs.font.italic = False
+        hs.font.color.rgb = RGBColor(0, 0, 0)
+        hpf = hs.paragraph_format
+        hpf.line_spacing = 1.0
+        hpf.space_before = Pt(before)
+        hpf.space_after = Pt(after)
+        hpf.keep_with_next = True
 
 
-def _add_para(doc, text, size=None, bold=False, italic=False, align=None, color=None):
+def _add_para(doc, text, size=None, bold=False, italic=False, align=None, color=None,
+              space_before=None, space_after=None):
     p = doc.add_paragraph()
     r = p.add_run(text)
     r.bold = bold
@@ -975,12 +1002,20 @@ def _add_para(doc, text, size=None, bold=False, italic=False, align=None, color=
         r.font.color.rgb = color
     if align is not None:
         p.alignment = align
+    if space_before is not None:
+        p.paragraph_format.space_before = Pt(space_before)
+    if space_after is not None:
+        p.paragraph_format.space_after = Pt(space_after)
     return p
+
+
+def _add_heading(doc, text, level):
+    return doc.add_paragraph(text, style=f"Heading {level}")
 
 
 def _add_table(doc, df, caption=None, font_size=9):
     if caption:
-        _add_para(doc, caption, size=9, bold=True)
+        _add_para(doc, caption, size=9, bold=True, space_before=10, space_after=4)
     t = doc.add_table(rows=df.shape[0] + 1, cols=df.shape[1])
     t.style = "Table Grid"
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -1004,38 +1039,37 @@ def _add_table(doc, df, caption=None, font_size=9):
 def _add_figure(doc, path, caption, width=6.0):
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(10)
     p.add_run().add_picture(str(path), width=Inches(width))
-    _add_para(doc, caption, size=9, italic=True, align=WD_ALIGN_PARAGRAPH.CENTER)
+    _add_para(doc, caption, size=9, italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=10)
 
 
 def render_docx(tables, bilingual, outpath):
     doc = Document()
     _style_doc(doc)
 
-    # 标题
-    _add_para(doc, TITLE_EN, size=16, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER,
-              color=RGBColor(0x1F, 0x3A, 0x5F))
+    # 标题（AEA：黑体居中）
+    _add_para(doc, TITLE_EN, size=14, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=6)
     if bilingual:
-        _add_para(doc, TITLE_CN, size=15, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER,
-                  color=RGBColor(0x1F, 0x3A, 0x5F))
+        _add_para(doc, TITLE_CN, size=14, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=10)
 
     # 摘要
-    _add_para(doc, "Abstract" if not bilingual else "Abstract / 摘要", size=12, bold=True,
-              color=RGBColor(0x1F, 0x3A, 0x5F))
-    _add_para(doc, ABSTRACT_EN)
+    _add_para(doc, "Abstract" if not bilingual else "Abstract / 摘要", size=11, bold=True,
+              space_before=6, space_after=4)
+    _add_para(doc, ABSTRACT_EN, align=WD_ALIGN_PARAGRAPH.JUSTIFY)
     if bilingual:
-        _add_para(doc, ABSTRACT_CN)
+        _add_para(doc, ABSTRACT_CN, align=WD_ALIGN_PARAGRAPH.JUSTIFY)
 
     for sec in SECTIONS:
-        _add_para(doc, sec["title_en"], size=13, bold=True, color=RGBColor(0x1F, 0x3A, 0x5F))
+        _add_heading(doc, sec["title_en"], 1)
         if bilingual:
-            _add_para(doc, sec["title_cn"], size=12, bold=True, color=RGBColor(0x1F, 0x3A, 0x5F))
+            _add_heading(doc, sec["title_cn"], 1)
         for b in sec["blocks"]:
             t = b["t"]
             if t == "h":
-                _add_para(doc, b["en"], size=11.5, bold=True)
+                _add_heading(doc, b["en"], 2)
                 if bilingual:
-                    _add_para(doc, b["cn"], size=11.5, bold=True)
+                    _add_heading(doc, b["cn"], 2)
             elif t == "p":
                 _add_para(doc, b["en"], align=WD_ALIGN_PARAGRAPH.JUSTIFY)
                 if bilingual:
