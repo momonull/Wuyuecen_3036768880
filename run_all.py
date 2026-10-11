@@ -1,7 +1,7 @@
 """
-run_all.py — Phase 4: 一键复现入口（可复用工作流）
+run_all.py — 一键复现入口（可复用工作流）
 
-从原始输入 data/raw/public.csv 出发，按顺序调用全部脚本，自动生成所有表图，
+从原始输入 data/raw/public.csv 出发，按顺序调用全部脚本，自动生成所有表图与实证报告，
 无需手动改数据或代码（硬性要求，见 PROJECT_PLAN §6.1）。
 
 顺序与产出：
@@ -9,12 +9,13 @@ run_all.py — Phase 4: 一键复现入口（可复用工作流）
   02_tables.py    → output/tables/{table2,table3,table4,replication_check}.md
   03_figure.py    → output/figures/figure1.png
   04_extension.py → output/tables/extension.md + output/figures/extension_ddd.png
+  05_report.py    → report/report.md + report_en.docx + report_bilingual.docx
 
 用法（在项目根目录）：
   python run_all.py
 
 前置条件：
-  1. Python 3.x + requirements.txt 中的依赖（numpy / pandas / statsmodels / matplotlib）。
+  1. Python 3.x + requirements.txt 中的依赖（numpy / pandas / statsmodels / matplotlib / python-docx）。
   2. 受限数据 public.csv 已放入 data/raw/（获取方式见 README；该文件不入库）。
 """
 
@@ -29,7 +30,7 @@ except Exception:
     pass
 
 ROOT = Path(__file__).resolve().parent
-SCRIPTS = ["01_clean.py", "02_tables.py", "03_figure.py", "04_extension.py"]
+SCRIPTS = ["01_clean.py", "02_tables.py", "03_figure.py", "04_extension.py", "05_report.py"]
 
 
 def main():
@@ -48,7 +49,7 @@ def main():
             sys.exit(result.returncode)
 
     print("\n" + "=" * 60)
-    print("全部完成。表图见 output/tables/ 与 output/figures/。")
+    print("全部完成。表图见 output/tables/ 与 output/figures/，报告见 report/。")
     print("=" * 60)
 
 

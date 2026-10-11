@@ -27,7 +27,7 @@ data/raw/public.csv
 
 ## 2. 环境要求
 
-- Python 3.9+（开发环境 3.13；numpy 2.3 / pandas 2.3 / statsmodels 0.15 / matplotlib 3.11 已实测）。
+- Python 3.9+（开发环境 3.13；numpy 2.3 / pandas 2.3 / statsmodels 0.15 / matplotlib 3.11 / python-docx 1.2 已实测）。
 - 依赖安装：
 
 ```bash
@@ -44,7 +44,7 @@ pip install -r requirements.txt
 python run_all.py
 ```
 
-该命令从 `data/raw/public.csv` 出发，依次运行 `01_clean → 02_tables → 03_figure → 04_extension`，
+该命令从 `data/raw/public.csv` 出发，依次运行 `01_clean → 02_tables → 03_figure → 04_extension → 05_report`，
 **全自动**生成以下产物（无需手动改数据或代码）：
 
 | 步骤 | 脚本 | 产出 |
@@ -53,6 +53,7 @@ python run_all.py
 | 复现表 | `code/02_tables.py` | `output/tables/table2.md` `table3.md` `table4.md` `replication_check.md` |
 | 复现图 | `code/03_figure.py` | `output/figures/figure1.png` |
 | 独立扩展 | `code/04_extension.py` | `output/tables/extension.md`、`output/figures/extension_ddd.png` |
+| 实证报告 | `code/05_report.py` | `report/report.md`、`report/report_en.docx`、`report/report_bilingual.docx` |
 
 清空输出（若需要干净重跑）：删除 `data/processed/*.csv` 与 `output/tables|figures` 下产物即可；
 `run_all.py` 会重新生成。
@@ -69,15 +70,17 @@ personal project/
 │   ├── 02_tables.py    # 复现 Table 2/3/4
 │   ├── 03_figure.py    # 复现 Figure 1
 │   ├── 04_extension.py # 独立扩展（DDD 所有权异质性）
+│   ├── 05_report.py    # 生成实证报告（md + 英文 Word + 中英对照 Word）
 │   └── 02_tables.do    # （可选）Stata 交叉验证核心 DID
 ├── output/
 │   ├── tables/         # 复现表 + 扩展表（markdown）
 │   └── figures/        # figure1.png + extension_ddd.png
-├── report/             # 实证报告（Phase 5）
-├── run_all.py          # 一键复现入口
+├── report/             # 实证报告：report.md / report_en.docx / report_bilingual.docx
+├── run_all.py          # 一键复现入口（含报告）
 ├── requirements.txt
 ├── PROJECT_PLAN.md     # 执行计划
 ├── AI_USE_DISCLOSURE.md# AI 使用披露
+├── DATA_DICTIONARY.md  # 原始数据字典
 └── README.md
 ```
 
