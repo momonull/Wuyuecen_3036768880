@@ -6,7 +6,7 @@ Card & Krueger (1994) "Minimum Wages and Employment" 复现项目。
 读入 data/raw/public.csv（原始数据，不改动），构造全部派生变量，
 输出 data/processed/ck94_clean.csv。
 
-口径依据：PROJECT_PLAN.md §3.2 与 output/replication_targets.md（PDF 第 776 页逐格核对）。
+口径依据：PROJECT_PLAN.md §3.2 与 outputs/replication_targets.md（PDF 第 776 页逐格核对）。
 
 构造变量（映射见 data/processed/variable_construction.md）：
   fte               全职当量就业 = EMPFT + NMGRS + 0.5*EMPPT
@@ -88,7 +88,7 @@ def build_variables(df):
 
 
 def summarize(df):
-    """生成核验摘要文本，与 output/replication_targets.md 的原文目标值比对。"""
+    """生成核验摘要文本，与 outputs/replication_targets.md 的原文目标值比对。"""
     L = []
     a = L.append
     a("")
@@ -131,7 +131,7 @@ def main():
     print(text)
 
     # 落盘核验快照，作为可查询日志（不必重跑即可查看）
-    snapshot = ROOT / "output" / "clean_verification.txt"
+    snapshot = ROOT / "outputs" / "clean_verification.txt"
     snapshot.write_text(f"# 01_clean.py 核验快照（自动生成，勿手改）\n\n{text}\n", encoding="utf-8")
     print(f"\nwrote verification snapshot: {snapshot}")
 

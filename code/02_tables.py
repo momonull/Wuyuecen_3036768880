@@ -4,13 +4,13 @@
 Card & Krueger (1994) "Minimum Wages and Employment" 复现项目。
 
 读入 data/processed/ck94_clean.csv（由 01_clean.py 生成），复现论文三张表，
-输出到 output/tables/：
+输出到 outputs/tables/：
   table2.md                   Table 2 描述性统计（NJ/PA × Wave1/Wave2，均值+标准误+t 值）
   table3.md                   Table 3 核心 DID 表（就业水平与变化，按州与 NJ 工资分组）
   table4.md                   Table 4 简约式回归（就业变化对 NJ dummy / GAP 的 5 列模型）
   replication_check.md        与原文目标值的逐项对照（差异说明）
 
-口径依据：PROJECT_PLAN.md §4 与 output/replication_targets.md（PDF 第 776–778 页）。
+口径依据：PROJECT_PLAN.md §4 与 outputs/replication_targets.md（PDF 第 776–778 页）。
 
 关键口径备忘（写代码前必读，与 01_clean.py / variable_construction.md 一致）：
   * FTE = EMPFT + NMGRS + 0.5*EMPPT；FTE2 同理。
@@ -38,7 +38,7 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 CLEAN = ROOT / "data" / "processed" / "ck94_clean.csv"
-OUT_DIR = ROOT / "output" / "tables"
+OUT_DIR = ROOT / "outputs" / "tables"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -89,7 +89,7 @@ def table2(df):
              "",
              "> 复现值由 `code/02_tables.py` 生成。括号内为标准误。均值按各变量非缺失样本计算；",
              "> Wave2 就业对永久关闭店(STATUS2==3)设 0、临时关闭店(STATUS2∈{2,4,5})视为缺失。",
-             "> 门店类型分布（百分比）与全文值对照 `output/replication_targets.md`。",
+             "> 门店类型分布（百分比）与全文值对照 `outputs/replication_targets.md`。",
              ""]
 
     # 2.1 门店类型分布（百分比）

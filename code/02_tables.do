@@ -6,14 +6,14 @@
 *       一致的清洗 / 变量构建，保证两套软件输入口径完全相同。
 *
 * 运行：在项目根目录执行  do code/02_tables.do
-* 预期（与 Python 一致，见 output/tables/replication_check.md）：
+* 预期（与 Python 一致，见 outputs/tables/replication_check.md）：
 *   (1) 核心 DID 系数 ≈ +2.75  (t ≈ 2.05)   —— 平衡样本 emp_chg 对 STATE 回归
 *   (2) 扩展 DDD 系数  ≈ -1.10  (t ≈ -0.45) —— emp_chg 对 STATE CO_OWNED STATE*CO_OWNED
 *
 * 变量名：raw 表头为大写（SHEET/CHAIN/.../EMPFT...）；Stata 变量名大小写不敏感，
 *         此处用 case(lower) 统一转为小写，与 Python 端派生变量（fte/fte2/emp_chg）一致。
 * 注：本脚本为可选交叉验证参考，未纳入 run_all.py 自动流程。
-*     已在 Stata 17 上运行并与 Python 逐位一致（结果见 output/tables/stata_check.log）：
+*     已在 Stata 17 上运行并与 Python 逐位一致（结果见 outputs/tables/stata_check.log）：
 *       核心 DID 系数 2.75（= Python +2.754）；DDD 的 sxo = -1.095292（6 位小数一致）。
 *     仅 SE 口径不同（Stata 同方差 vs Python Welch/HC1），点估计完全一致。
 *     若重跑后结果与 Python 不一致，以 data/processed 的 Python 复现为准并报告差异。
@@ -22,7 +22,7 @@
 clear all
 set more off
 
-* --- 打开日志（文本格式，输出到 output/tables/stata_check.log） ---
+* --- 打开日志（文本格式，输出到 outputs/tables/stata_check.log） ---
 capture log close
 log using "D:\小蓝的文件\HKU\Econ6067\personal project\output\tables\stata_check.log", replace text
 

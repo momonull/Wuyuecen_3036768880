@@ -9,9 +9,9 @@ Card & Krueger (1994) "Minimum Wages and Employment" 复现项目。
   3. report/report_bilingual.docx   中英对照 Word（文字段落一段英文一段中文交替；图表只出现一次，不双语）
 
 表格均从 data/processed/ck94_clean.csv 现场计算（与 02_tables.py / 04_extension.py 同一口径），
-保证报告表格与复现产物、可复现工作流三者一致。图直接嵌入 output/figures/ 下已生成的 PNG。
+保证报告表格与复现产物、可复现工作流三者一致。图直接嵌入 outputs/figures/ 下已生成的 PNG。
 
-口径依据：PROJECT_PLAN.md §7、output/replication_targets.md、data/processed/variable_construction.md。
+口径依据：PROJECT_PLAN.md §7、outputs/replication_targets.md、data/processed/variable_construction.md。
 """
 
 import sys
@@ -35,8 +35,8 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 CLEAN = ROOT / "data" / "processed" / "ck94_clean.csv"
-FIG1 = ROOT / "output" / "figures" / "figure1.png"
-FIG_EXT = ROOT / "output" / "figures" / "extension_ddd.png"
+FIG1 = ROOT / "outputs" / "figures" / "figure1.png"
+FIG_EXT = ROOT / "outputs" / "figures" / "extension_ddd.png"
 REPORT_MD = ROOT / "report" / "report.md"
 REPORT_EN = ROOT / "report" / "report_en.docx"
 REPORT_BI = ROOT / "report" / "report_bilingual.docx"
@@ -899,7 +899,7 @@ def render_markdown(tables):
                     L += [f"**{cap}**", "", _md_table(df), ""]
             elif t == "figure":
                 fname = "figure1.png" if b["path"] == "figure1" else "extension_ddd.png"
-                rel = f"../output/figures/{fname}"
+                rel = f"../outputs/figures/{fname}"
                 L += [f"![{b['en']}]({rel})", "", f"*{b['en']}*", ""]
     return "\n".join(L)
 

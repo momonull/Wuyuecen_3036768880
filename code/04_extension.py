@@ -23,8 +23,8 @@ Card & Krueger (1994) "Minimum Wages and Employment" 复现项目。
   * 临时关闭店（STATUS2∈{2,4,5}）Wave2 就业改设为 0 的口径，作为注脚稳健性对照。
 
 输出：
-  output/tables/extension.md     扩展结果表（四组均值 + DDD 回归 + 解释）
-  output/figures/extension_ddd.png   系数图（加盟 DID / 直营 DID / DDD 及 95% CI）
+  outputs/tables/extension.md     扩展结果表（四组均值 + DDD 回归 + 解释）
+  outputs/figures/extension_ddd.png   系数图（加盟 DID / 直营 DID / DDD 及 95% CI）
 
 口径依赖：与 01_clean.py / 02_tables.py 一致（fte = EMPFT + NMGRS + 0.5*EMPPT）。
 """
@@ -43,8 +43,8 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 CLEAN = ROOT / "data" / "processed" / "ck94_clean.csv"
-OUT_DIR = ROOT / "output" / "tables"
-FIG_DIR = ROOT / "output" / "figures"
+OUT_DIR = ROOT / "outputs" / "tables"
+FIG_DIR = ROOT / "outputs" / "figures"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 

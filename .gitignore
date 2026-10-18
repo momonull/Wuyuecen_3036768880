@@ -12,6 +12,8 @@ public.csv
 *.zip
 01_DID/
 *.pdf
+# 例外：最终研究报告 report.pdf 必须入库（模板要求）
+!report.pdf
 
 # 处理后的门店级数据（由 code/01_clean.py 从 public.csv 生成，仍含受限微观数据，不入库）
 data/processed/*.csv

@@ -25,7 +25,7 @@
 
 # 执行协议（严格按此推进）
 
-1. **先读 `PROJECT_PLAN.md`**，再读 PDF 中 Table 2–4 与 Figure 1 的原文数值，建一张「复现对照表」存到 `output/`。
+1. **先读 `PROJECT_PLAN.md`**，再读 PDF 中 Table 2–4 与 Figure 1 的原文数值，建一张「复现对照表」存到 `outputs/`。
 2. **分阶段执行，每完成一个 Phase 停下让我确认**（除非我明确说"全程自动跑完"）：
    - Phase 0：建目录结构、初始化 git、写 `.gitignore`、建对照表 → **commit**
    - Phase 1：数据清洗与变量构建 → 产出 `data/processed/` + 变量构建日志 → **commit**
@@ -54,7 +54,7 @@
 # 交付清单（全部完成后逐项自查）
 
 - [ ] `data/processed/` 处理数据 + 变量构建说明
-- [ ] `output/` 下 Table 2/3/4 + Figure 1 + 扩展结果
+- [ ] `outputs/` 下 Table 2/3/4 + Figure 1 + 扩展结果
 - [ ] `run_all.py`（/`.do`）一键复现
 - [ ] `README.md`（输入文件夹结构、环境要求、一键复现命令、受限数据说明）
 - [ ] `report/` 实证报告，含 7 个必含小节

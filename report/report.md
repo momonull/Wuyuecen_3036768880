@@ -146,7 +146,7 @@ In the 357-store sample, the coefficient on the New Jersey dummy is 2.33 (SE 1.1
 
 ### 4.4 Figure 1 — wage distributions
 
-![Figure 1 — Distribution of starting wage rates by state and survey wave (replication of CK94 Figure 1). Dashed vertical lines at $4.25 and $5.05.](../output/figures/figure1.png)
+![Figure 1 — Distribution of starting wage rates by state and survey wave (replication of CK94 Figure 1). Dashed vertical lines at $4.25 and $5.05.](../outputs/figures/figure1.png)
 
 *Figure 1 — Distribution of starting wage rates by state and survey wave (replication of CK94 Figure 1). Dashed vertical lines at $4.25 and $5.05.*
 
@@ -218,7 +218,7 @@ The estimate is fragile in a way that is itself informative. Adding brand fixed 
 
 There is no robustly identifiable ownership heterogeneity: the directionally weaker response of company-owned stores is too imprecise and too sensitive to the size control to support a conclusion. That null is nonetheless a meaningful extension of CK94 — their headline result (the minimum wage did not visibly cut fast-food employment) is broadly uniform across the ownership dimension rather than being driven by one ownership type.
 
-![Extension Figure — Employment response by store ownership: franchise vs. company-owned DID and the triple difference δ (95% confidence intervals).](../output/figures/extension_ddd.png)
+![Extension Figure — Employment response by store ownership: franchise vs. company-owned DID and the triple difference δ (95% confidence intervals).](../outputs/figures/extension_ddd.png)
 
 *Extension Figure — Employment response by store ownership: franchise vs. company-owned DID and the triple difference δ (95% confidence intervals).*
 

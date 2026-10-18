@@ -11,7 +11,7 @@ Card & Krueger (1994) "Minimum Wages and Employment" 复现项目。
 预期（与原文 Figure 1 一致）：
   * NJ Wave2 分布整体右移、在 $5.05 处大量堆积（最低工资上调后起始工资被「钉」到新底线）。
   * PA 两期分布几乎重合（对照州最低工资不变）。
-输出 output/figures/figure1.png（300 dpi）。
+输出 outputs/figures/figure1.png（300 dpi）。
 
 口径：y 轴用「门店占比(fraction)」而非计数，使四面板在样本量不同时可直接比较；
       这是「分布」的标准表示。
@@ -34,7 +34,7 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 CLEAN = ROOT / "data" / "processed" / "ck94_clean.csv"
-FIG_DIR = ROOT / "output" / "figures"
+FIG_DIR = ROOT / "outputs" / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 OUT = FIG_DIR / "figure1.png"
 

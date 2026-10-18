@@ -1,7 +1,7 @@
 # 变量构建日志 — Card & Krueger (1994) 复现
 
 > 由 `code/01_clean.py` 生成。输入 `data/raw/public.csv`（410 行 × 46 列，未改动），输出 `data/processed/ck94_clean.csv`（410 行 × 57 列）。
-> 口径依据 `PROJECT_PLAN.md` §3.2 与 `output/replication_targets.md`（PDF 第 776 页逐格核对）。
+> 口径依据 `PROJECT_PLAN.md` §3.2 与 `outputs/replication_targets.md`（PDF 第 776 页逐格核对）。
 
 ## 一、构造变量一览
 
@@ -53,7 +53,7 @@
 > - 若再要求 `STATUS2==1`（排除永久关闭店），得 378（NJ 304 / PA 74，即 PROJECT_PLAN §3.3 的"约 378"）。
 > - 论文 Table 3 row 4 "balanced subsample" 定义为"两期均报告有效就业数据的门店"。永久关闭店 Wave2=0 是否算"有效"，需在 Phase 2 用论文精确数值（DID≈+2.76, t=2.03）反推定案。
 
-## 四、核验结果（对照 output/replication_targets.md 原文目标值）
+## 四、核验结果（对照 outputs/replication_targets.md 原文目标值）
 
 运行 `python code/01_clean.py` 的摘要输出与原文目标**全部精确一致**：
 

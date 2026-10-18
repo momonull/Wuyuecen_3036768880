@@ -2,7 +2,7 @@
 
 > 复现值由 `code/02_tables.py` 生成。括号内为标准误。均值按各变量非缺失样本计算；
 > Wave2 就业对永久关闭店(STATUS2==3)设 0、临时关闭店(STATUS2∈{2,4,5})视为缺失。
-> 门店类型分布（百分比）与全文值对照 `output/replication_targets.md`。
+> 门店类型分布（百分比）与全文值对照 `outputs/replication_targets.md`。
 
 ## 门店类型分布（%）
 
