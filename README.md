@@ -55,7 +55,7 @@ python code/run_all.py   # 一键复现入口主体（模板要求的 code/run_a
 | 复现表 | `code/02_tables.py` | `outputs/tables/table2.md` `table3.md` `table4.md` `replication_check.md` |
 | 复现图 | `code/03_figure.py` | `outputs/figures/figure1.png` |
 | 独立扩展 | `code/04_extension.py` | `outputs/tables/extension.md`、`outputs/figures/extension_ddd.png` |
-| 实证报告 | `code/05_report.py` | `report/report.md`、`report/report_en.docx`、`report/report_bilingual.docx` |
+| 实证报告 | `code/05_report.py` | 本地 `report/`（md + Word，不入库）；最终版为根目录 `report.pdf` |
 
 清空输出（若需要干净重跑）：删除 `data/processed/*.csv` 与 `outputs/tables|figures` 下产物即可；
 `run_all.py` 会重新生成。
@@ -78,7 +78,6 @@ personal project/
 ├── outputs/
 │   ├── tables/         # 复现表 + 扩展表（markdown）
 │   └── figures/        # figure1.png + extension_ddd.png
-├── report/             # 实证报告：report.md / report_en.docx / report_bilingual.docx
 ├── skills/
 │   └── SKILL.md        # 复现主表/主图的可复用技能（模板要求）
 ├── report.pdf          # 最终研究报告（模板要求，根目录 PDF）

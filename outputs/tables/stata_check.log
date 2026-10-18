@@ -1,0 +1,114 @@
+---------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  D:\小蓝的文件\HKU\Econ6067\personal project\output\tables\stata_check.log
+  log type:  text
+ opened on:   9 Oct 2026, 13:43:38
+
+. 
+. * --- 读入原始数据（受限文件，不入库；case(lower) 统一小写变量名） ---
+. import delimited "D:\小蓝的文件\HKU\Econ6067\personal project\data\raw\public.csv", clear c
+> ase(lower)
+(encoding automatically selected: ISO-8859-2)
+(46 vars, 410 obs)
+
+. 
+. * ============================================================================
+. * 清洗与变量构建（与 Python 01_clean.py 口径一致，见 variable_construction.md）
+. * ============================================================================
+. 
+. * --- 关店处理 ---
+. * 永久关闭 STATUS2==3（6 家）：Wave2 就业 = 0（原始数据已填 0，此处显式重写以防万一）
+. * 临时关闭 STATUS2∈{2,4,5}（4 家）：Wave2 就业 = 缺失（原始数据已为缺失，显式置空）
+. replace empft2 = 0 if status2 == 3
+(0 real changes made)
+
+. replace emppt2  = 0 if status2 == 3
+(0 real changes made)
+
+. replace nmgrs2 = 0 if status2 == 3
+(0 real changes made)
+
+. foreach v of varlist empft2 emppt2 nmgrs2 {
+  2.     replace `v' = . if inlist(status2, 2, 4, 5)
+  3. }
+(0 real changes made)
+(0 real changes made)
+(1 real change made, 1 to missing)
+
+. 
+. * --- FTE 就业 = 全职 + 经理 + 0.5*兼职 ---
+. gen fte     = empft  + nmgrs  + 0.5*emppt
+(12 missing values generated)
+
+. gen fte2    = empft2 + nmgrs2 + 0.5*emppt2
+(14 missing values generated)
+
+. gen emp_chg = fte2 - fte
+(26 missing values generated)
+
+. 
+. * --- 平衡样本标记 = 两期就业均非缺失 ---
+. gen bal_emp = !missing(fte) & !missing(fte2)
+
+. 
+. * ============================================================================
+. * (1) 核心 DID：就业变化对 NJ dummy 回归
+. * ============================================================================
+. di _n "=== 核心 DID（平衡样本，emp_chg 对 STATE）==="
+
+=== 核心 DID（平衡样本，emp_chg 对 STATE）===
+
+. reg emp_chg state if bal_emp == 1
+
+      Source |       SS           df       MS      Number of obs   =       384
+-------------+----------------------------------   F(1, 382)       =      5.68
+       Model |  456.408692         1  456.408692   Prob > F        =    0.0177
+    Residual |  30720.6883       382  80.4206501   R-squared       =    0.0146
+-------------+----------------------------------   Adj R-squared   =    0.0121
+       Total |   31177.097       383  81.4023421   Root MSE        =    8.9678
+
+------------------------------------------------------------------------------
+     emp_chg | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       state |       2.75   1.154355     2.38   0.018      .480314    5.019686
+       _cons |  -2.283333   1.035507    -2.21   0.028    -4.319341   -.2473256
+------------------------------------------------------------------------------
+
+. * 等价两样本均值差（若已装 diff 命令，取消注释）：
+. *   diff emp_chg if bal_emp == 1, t(state)
+. 
+. * ============================================================================
+. * (2) 扩展 DDD：所有权异质性
+. * ============================================================================
+. di _n "=== 扩展 DDD（emp_chg 对 STATE CO_OWNED STATE*CO_OWNED）==="
+
+=== 扩展 DDD（emp_chg 对 STATE CO_OWNED STATE*CO_OWNED）===
+
+. gen sxo = state * co_owned
+
+. reg emp_chg state co_owned sxo if bal_emp == 1
+
+      Source |       SS           df       MS      Number of obs   =       384
+-------------+----------------------------------   F(3, 380)       =      2.05
+       Model |  496.584606         3  165.528202   Prob > F        =    0.1064
+    Residual |  30680.5124       380  80.7381906   R-squared       =    0.0159
+-------------+----------------------------------   Adj R-squared   =    0.0082
+       Total |   31177.097       383  81.4023421   Root MSE        =    8.9854
+
+------------------------------------------------------------------------------
+     emp_chg | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       state |   3.131795   1.431573     2.19   0.029     .3169989    5.946591
+    co_owned |   .3600863   2.180145     0.17   0.869    -3.926573    4.646745
+         sxo |  -1.095292   2.429463    -0.45   0.652    -5.872167    3.681582
+       _cons |  -2.408163   1.283635    -1.88   0.061     -4.93208    .1157533
+------------------------------------------------------------------------------
+
+. 
+. * --- 关闭日志 ---
+. log close
+      name:  <unnamed>
+       log:  D:\小蓝的文件\HKU\Econ6067\personal project\output\tables\stata_check.log
+  log type:  text
+ closed on:   9 Oct 2026, 13:43:39
+---------------------------------------------------------------------------------------------
